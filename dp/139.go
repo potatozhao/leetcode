@@ -1,3 +1,5 @@
+package main
+
 // dp解法， 类似于背包。
 func wordBreak(s string, wordDict []string) bool {
 	dpList := make([]bool, len(s)+1)
