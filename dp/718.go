@@ -35,13 +35,4 @@ func findLength(A []int, B []int) int {
 	return maxNum
 }
 
-func max(a, b, c int) int {
-	if a > b && a >= c {
-		return a
-	} else if b >= a && b > c {
-		return b
-	}
-	return c
-}
-
 // 此答案很糟糕 公式为f(i,j) = f(i-1,j-1)
