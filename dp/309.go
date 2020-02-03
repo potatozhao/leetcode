@@ -14,7 +14,7 @@
 
 package main
 
-// dp解法，
+// dp解法
 func maxProfit(prices []int) int {
     if len(prices) <=1{
         return 0
