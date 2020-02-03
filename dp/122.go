@@ -52,3 +52,39 @@ func maxProfit(prices []int) int {
     }
     return num
 }
+
+// 贪心算法，只加正数！我勒个去。。。这啥算法。。。
+func maxProfit_2(prices []int) int {
+    if len(prices) <= 1{
+        return 0
+    }
+    num := 0
+    for i := 0; i< len(prices) - 1; i++{
+        if prices[i + 1] - prices[i] > 0{
+            num += prices[i+1] - prices[i]
+        }
+    }
+    return num
+}
+
+
+// dp解法 每一个股票有两个状态，dp[i][0-1], i为钱在手，1为换成股票了。。。 值为收益。
+func maxProfit(prices []int) int {
+    if len(prices) <= 1{
+        return 0
+    }
+    a := 0
+    b := 0 - prices[0]
+    for i := 1; i< len(prices); i++{
+        a = max(a , b + prices[i]) // 前为当前不买不卖，后为把股票换成钱
+        b = max(b, a - prices[i]) // 前为当前不买不卖，后为把钱换成股票
+    }
+    return a
+}
+
+func max(a,b int) int{
+    if a > b{
+        return a
+    }
+    return b
+}
