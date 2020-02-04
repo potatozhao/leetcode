@@ -37,7 +37,7 @@ func max(a, b, c int) int{
     return c
 }
 
-// 套路解法
+// 套路解法 https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/solution/yi-ge-fang-fa-tuan-mie-6-dao-gu-piao-wen-ti-by-l-2/
 func maxProfit_2(prices []int) int {
     const intMax = int(^uint(0) >> 1) // int最大值
     const intMin = ^intMax // int最小值
