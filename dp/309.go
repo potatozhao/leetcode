@@ -36,3 +36,28 @@ func max(a, b, c int) int{
     }
     return c
 }
+
+// 套路解法
+func maxProfit_2(prices []int) int {
+    const intMax = int(^uint(0) >> 1) // int最大值
+    const intMin = ^intMax // int最小值
+
+    a := 0 // 不持有的资产
+    b := intMin // 持有的资产
+    c := 0 // 解冻前不持有的资产 解冻期为1 所以，c := a - 1
+
+    for i := 0; i<len(prices); i++{
+        tmp := a
+        a = max(a, b + prices[i])
+        b = max(b, c - prices[i])
+        c = tmp
+    }
+    return a
+}
+
+func max(a,b int) int{
+    if a > b{
+        return a
+    }
+    return b
+}
