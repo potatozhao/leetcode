@@ -29,7 +29,7 @@
 package main
 
 
-// 多维背包问题，
+// 多维01背包问题，
 func findMaxForm(strs []string, m int, n int) int {
 	zMap := make(map[string]int)
 	iMap := make(map[string]int)
