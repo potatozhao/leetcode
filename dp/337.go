@@ -94,8 +94,8 @@ func subRob2(node *TreeNode) (int, int) {
 	if node == nil {
 		return 0, 0
 	}
-	leftA, leftB := subRob(node.Left)
-	rightA, rightB := subRob(node.Right)
+	leftA, leftB := subRob2(node.Left)
+	rightA, rightB := subRob2(node.Right)
 
 	a := max(leftA, leftB) + max(rightA, rightB)
 	b := leftA + rightA + node.Val
