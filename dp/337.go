@@ -82,3 +82,22 @@ func max(a, b int) int {
 	}
 	return b
 }
+
+//此处解答，及其巧妙！妙哉！
+func rob2(root *TreeNode) int {
+	a, b := subRob(root)
+	return max(a, b)
+
+}
+
+func subRob2(node *TreeNode) (int, int) {
+	if node == nil {
+		return 0, 0
+	}
+	leftA, leftB := subRob(node.Left)
+	rightA, rightB := subRob(node.Right)
+
+	a := max(leftA, leftB) + max(rightA, rightB)
+	b := leftA + rightA + node.Val
+	return a, b
+}
