@@ -45,7 +45,7 @@ func copyNums(in [][]int, num int) [][]int {
 		tmpList1 := make([]int, len(v))
 		tmpList2 := make([]int, len(v)+1)
 		tmpList2[0] = num
-		for i, _ := range v {
+		for i := range v {
 			tmpList1[i] = v[i]
 			tmpList2[i+1] = v[i]
 		}
