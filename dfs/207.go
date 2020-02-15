@@ -87,7 +87,8 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
             drawMap[l[0]]= make([]int, 0)
         }
         drawMap[l[0]] = append(drawMap[l[0]], l[1])
-    }
+	}
+	// 剪枝与判断是否为环，其中，0为没经历过，1为正在遍历，2为已经遍历，但不成环，剪枝。
     markList := make([]int,numCourses)
     for k := range drawMap{
         markList[k] = 1
