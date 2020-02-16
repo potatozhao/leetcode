@@ -91,14 +91,5 @@ func dfs2(node *TreeNode, min, max int) bool {
 	if node.Val >= max || node.Val <= min {
 		return false
 	}
-
-	if !dfs2(node.Left, min, node.Val) {
-		return false
-	}
-
-	if !dfs2(node.Right, node.Val, max) {
-		return false
-	}
-
-	return true
+	return dfs2(node.Left, min, node.Val) && dfs2(node.Right, node.Val, max)
 }
