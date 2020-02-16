@@ -76,3 +76,29 @@ func dfs(node *TreeNode) (int, int, bool) {
 
 	return min, max, true
 }
+
+// 第二种dfs解法，代码简单易懂
+func isValidBST2(root *TreeNode) bool {
+	intMax := int(^uint(0) >> 1)
+	intMin := ^intMax
+	return dfs(root, intMin, intMax)
+}
+
+func dfs2(node *TreeNode, min, max int) bool {
+	if node == nil {
+		return true
+	}
+	if node.Val >= max || node.Val <= min {
+		return false
+	}
+
+	if !dfs2(node.Left, min, node.Val) {
+		return false
+	}
+
+	if !dfs2(node.Right, node.Val, max) {
+		return false
+	}
+
+	return true
+}
