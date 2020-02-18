@@ -45,3 +45,34 @@ func dfs(node *TreeNode, list *[]int) {
 	dfs(node.Right, list)
 	return
 }
+
+// 迭代方案，color记录左子节点是否已经迭代过。
+func inorderTraversal2(root *TreeNode) []int {
+	retList := make([]int, 0)
+	if root == nil {
+		return retList
+	}
+
+	type ColorNode struct {
+		Color int
+		Node  *TreeNode
+	}
+
+	stackList := make([]ColorNode, 0)
+	stackList = append(stackList, ColorNode{Color: 0, Node: root})
+	for len(stackList) > 0 {
+		topNode := stackList[len(stackList)-1]
+		stackList = stackList[:len(stackList)-1]
+		if topNode.Node.Left != nil && topNode.Color < 1 {
+			topNode.Color = 1
+			stackList = append(stackList, topNode)
+			stackList = append(stackList, ColorNode{Color: 0, Node: topNode.Node.Left})
+			continue
+		}
+		retList = append(retList, topNode.Node.Val)
+		if topNode.Node.Right != nil {
+			stackList = append(stackList, ColorNode{Color: 0, Node: topNode.Node.Right})
+		}
+	}
+	return retList
+}
