@@ -87,3 +87,41 @@ func dfs2(grid [][]byte, i,j int)int{
     dfs2(grid, i, j-1)
     return 1
 }
+
+// bfs解法
+type Node struct{
+    X int
+    Y int
+}
+
+func bfs(grid [][]byte, i,j int)int{
+    if grid[i][j] < '1'{
+        return 0
+    }
+    queue := make([]Node, 0)
+    grid[i][j] = 0
+    queue = append(queue, Node{X:i,Y:j})
+    for len(queue) > 0{
+        tmpNode := queue[0]
+        queue = queue[1:]
+        x := tmpNode.X
+        y := tmpNode.Y
+        if x - 1 >= 0 && grid[x-1][y] == '1'{
+            grid[x-1][y] = 0
+            queue = append(queue,Node{X:x-1,Y:y})
+        }
+        if x + 1 < len(grid) && grid[x+1][y] == '1'{
+            grid[x+1][y] = 0
+            queue = append(queue,Node{X:x+1,Y:y})
+        }
+        if y - 1 >= 0 && grid[x][y-1]  == '1'{
+            grid[x][y-1] = 0
+            queue = append(queue,Node{X:x,Y:y-1})
+        }
+        if y + 1 < len(grid[0]) && grid[x][y+1]  == '1'{
+            grid[x][y+1] = 0
+            queue = append(queue,Node{X:x,Y:y+1})
+        }
+    }
+    return 1
+}
