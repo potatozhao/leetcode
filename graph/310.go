@@ -96,4 +96,54 @@ func max(a, b int) int {
 	return b
 }
 
-//bfs 方案、
+//bfs 方案 入度表
+
+
+func findMinHeightTreesBFS(n int, edges [][]int) []int {
+    if n <=0{
+        return []int{}
+    }
+    if n == 1{
+        return []int{0}
+    }
+    graphMap := make(map[int][]int)// 重新定义图结构
+    indegreeList := make([]int, n) // 入度表
+    for _,v := range edges{
+        for i := range v{
+            if _,ok:=graphMap[v[i]];!ok{
+                graphMap[v[i]] = make([]int,0)
+            } 
+        }
+        graphMap[v[0]] = append(graphMap[v[0]], v[1])
+        graphMap[v[1]] = append(graphMap[v[1]], v[0])
+        indegreeList[v[0]]++
+        indegreeList[v[1]]++
+    }
+
+    ans := make([]int, 0) // 入度为1则为叶子节点。
+
+    // 整合第一轮入度为1的
+    for i := range indegreeList{
+        if indegreeList[i] == 1{
+            ans = append(ans, i)
+        }
+    }
+
+    maxNum := n
+    for maxNum > 2{ //剩余节点不是一个就是两个
+        tmpans := make([]int, 0)
+        maxNum -= len(ans)
+        for i := range ans{
+            v,_ := graphMap[ans[i]]
+            for _, j := range v{
+                indegreeList[j]-- 
+				if indegreeList[j] == 1{ // 每一次相减都要判断是否已经成为叶子节点，避免最后一轮出现全部都剪成0的情况出现。比如[1,0][2,0][3,0],全部过一遍，0就的入度就没有了。没办法输出ans了。
+                    tmpans = append(tmpans, j)
+                }
+            }
+        }
+        ans=tmpans
+    }
+
+    return ans
+}
