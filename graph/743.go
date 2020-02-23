@@ -66,3 +66,65 @@ type CostNode struct{
     Next int
     Cost int
 }
+
+
+
+//Dijkstra 算法
+func networkDelayTimeD(times [][]int, N int, K int) int {
+    distinceList := make([]int, N+1)
+    for i := range distinceList{
+        distinceList[i] = -1
+    }
+    graphMap := make([][]int,N+1)
+    for i := range graphMap{
+        graphMap[i] = make([]int, N+1)
+        for j := range graphMap[i]{
+            graphMap[i][j] = -1
+        }
+    }
+
+    for i := range times{
+        graphMap[times[i][0]][times[i][1]] = times[i][2]
+    }
+
+
+    for i := range graphMap[K]{
+        distinceList[i] = graphMap[K][i]
+    }
+    distinceList[K] = 0
+
+    visitedList := make([]bool, N+1)
+    visitedList[K] = true
+
+    for i := 0; i < N-1; i++{
+        minDistince := int(^uint(0) >> 1)
+        minNum := 0
+        for j := 1; j <= N; j++{
+            if !visitedList[j] && distinceList[j] >= 0 && distinceList[j] < minDistince{
+                minNum = j
+                minDistince = distinceList[j]
+            }
+        }
+
+        for j :=1; j <= N; j++{
+            if !visitedList[j] && graphMap[minNum][j] >=0{
+                if distinceList[j] < 0{
+                    distinceList[j] = minDistince + graphMap[minNum][j]
+                }else if distinceList[j] > minDistince + graphMap[minNum][j]{
+                    distinceList[j] = minDistince + graphMap[minNum][j]
+                }
+            }
+        }
+        visitedList[minNum] = true
+    }
+    maxNum := 0
+    for i := 1; i < len(distinceList); i++{
+        if distinceList[i] == -1{
+            return -1
+        }
+        if distinceList[i] > maxNum{
+            maxNum = distinceList[i]
+        }
+    }
+    return maxNum
+}
