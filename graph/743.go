@@ -128,3 +128,43 @@ func networkDelayTimeD(times [][]int, N int, K int) int {
     }
     return maxNum
 }
+
+//floyd 算法 时间复杂度n的三次方
+func networkDelayTimeF(times [][]int, N int, K int) int {
+	graphMap := make([][]int,N+1)
+	// 初始化邻接矩阵
+    for i := range graphMap{
+        graphMap[i] = make([]int, N+1)
+        for j := range graphMap[i]{
+            if i == j{
+                graphMap[i][j] = 0
+            }else{
+                graphMap[i][j] = -1
+            }
+        }
+    }
+
+    for i := range times{
+        graphMap[times[i][0]][times[i][1]] = times[i][2]
+    }
+
+    for m := 1; m<=N; m++{ // 依次使用1-N的节点对全部节点进行进行松弛。
+        for i := 1; i <= N; i++{
+            for j := 1; j<= N; j++{
+                if graphMap[i][m] != - 1 && graphMap[m][j] != -1 && (graphMap[i][j] == -1 || graphMap[i][j] > graphMap[i][m] + graphMap[m][j]){
+                graphMap[i][j] = graphMap[i][m] + graphMap[m][j]
+                }
+            }
+        }
+    }
+    maxNum := 0
+    for i := 1; i <= N; i++{
+        if graphMap[K][i] == -1{
+            return -1
+        }
+        if graphMap[K][i] > maxNum{
+            maxNum = graphMap[K][i]
+        }
+    }
+    return maxNum
+}
