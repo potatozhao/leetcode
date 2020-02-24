@@ -168,3 +168,38 @@ func networkDelayTimeF(times [][]int, N int, K int) int {
     }
     return maxNum
 }
+
+// bellmen-ford算法，缺少负权环判断。
+func networkDelayTimeB(times [][]int, N int, K int) int {
+
+    distanceList := make([]int, N+1)
+    for i := range distanceList{
+        distanceList[i] = -1
+    }
+    distanceList[K] = 0
+    for i := 0; i < N -1;i++{
+        flag := true
+        for j := range times{
+            s := times[j][0]
+            e := times[j][1]
+            c := times[j][2]
+            if distanceList[s] != -1 &&(distanceList[e] == -1 || distanceList[s] + c < distanceList[e]){
+                distanceList[e] = distanceList[s] + c
+                flag = false
+            }
+        }
+        if flag{
+            break
+        }
+    }
+    maxNum := 0
+    for i :=1; i < len(distanceList); i++{
+        if distanceList[i] == -1{
+            return -1
+        }
+        if distanceList[i] > maxNum{
+            maxNum = distanceList[i]
+        }
+    }
+    return maxNum
+}
