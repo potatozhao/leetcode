@@ -177,7 +177,7 @@ func networkDelayTimeB(times [][]int, N int, K int) int {
         distanceList[i] = -1
     }
     distanceList[K] = 0
-    for i := 0; i < N -1;i++{
+    for i := 0; i < N -1;i++{ // 最大松弛N-1次 为什么呢？，不能循环是需要判断是否有负权回路
         flag := true
         for j := range times{
             s := times[j][0]
@@ -191,7 +191,18 @@ func networkDelayTimeB(times [][]int, N int, K int) int {
         if flag{
             break
         }
-    }
+	}
+	// 判断负权回路 当松弛过后，依旧出现，还能减少的，也就意味着，出现负权回路了。
+	for i := range times{
+		s := times[j][0]
+		e := times[j][1]
+		c := times[j][2]
+		if distanceList[s] + c < distanceList[e]{
+			return -1
+		}
+	}
+
+
     maxNum := 0
     for i :=1; i < len(distanceList); i++{
         if distanceList[i] == -1{
@@ -202,4 +213,76 @@ func networkDelayTimeB(times [][]int, N int, K int) int {
         }
     }
     return maxNum
+}
+
+
+// spfa
+
+// spfa算法
+// 如何判断最大入队次数？
+// 如何判断是否有负权回路？
+// corner case 如何判断
+
+import "container/list"
+func networkDelayTime(times [][]int, N int, K int) int {
+    //距离列表
+    distanceList := make([]int, N+1)
+    for i := range distanceList{
+        distanceList[i] = -1
+    }
+    distanceList[K] = 0
+
+    numList := make([]int, N+1)
+
+    // list
+    queue := list.New()
+    // 邻接矩阵
+    graph := make([][]Node, N+1)
+    for i := range graph{
+        graph[i] = make([]Node, N+1)
+    }
+    for i := range times{
+        s := times[i][0]
+        e := times[i][1]
+        c := times[i][2]
+        graph[s] = append(graph[s],Node{Next:e,Cost:c})
+    }
+    //起始点入队列
+    queue.PushBack(K)
+    // 记录松弛次数
+    numList[K]++
+    for queue.Len() > 0{
+        tmp := queue.Front()
+        queue.Remove(tmp)
+        num := tmp.Value.(int)
+        for i := range graph[num]{
+            n := graph[num][i].Next
+            c := graph[num][i].Cost
+            // 松弛
+            if distanceList[n] <0 || distanceList[n] > distanceList[num] + c{
+                distanceList[n] = distanceList[num] + c
+                queue.PushBack(n)
+                numList[n]++
+                if numList[n] > N{ // 如果松弛次数超过所有的点数，则证明有负权回路
+                    return -1
+                }
+            }
+        }
+    }
+    maxNum := 0
+    for i := 1; i < len(distanceList); i++{
+        if distanceList[i] == -1{
+            return -1
+        }
+        if distanceList[i] > maxNum{
+            maxNum = distanceList[i]
+        }
+    }
+
+    return maxNum
+}
+
+type Node struct{
+    Next int
+    Cost int
 }
