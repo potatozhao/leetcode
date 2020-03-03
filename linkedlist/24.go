@@ -48,3 +48,14 @@ package main
     }
     return thead.Next
 }
+
+// 递归解法
+func dfs(head *ListNode) *ListNode{
+    if head == nil || head.Next == nil{
+        return head
+    }
+    next := head.Next
+    head.Next = dfs(next.Next
+    next.Next = head
+    return next
+}
