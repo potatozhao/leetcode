@@ -53,3 +53,21 @@ func max(a,b int)int{
     }
     return b
 }
+
+// 内存优化版本
+func merge2(intervals [][]int) [][]int {
+    if len(intervals)<= 1{
+        return intervals
+    }
+    sort.Sort(IntSlice(intervals))
+    a := 0
+    for i := range intervals{
+        if intervals[i][0] <= intervals[a][1]{
+            intervals[a][1] = max(intervals[a][1], intervals[i][1])
+        }else{
+            a += 1
+            intervals[a][0],intervals[a][1]  = intervals[i][0],intervals[i][1]
+        }
+    }
+    return intervals[:a+1]
+}
