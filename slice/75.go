@@ -54,3 +54,30 @@ func sort(nums []int, dst int) int {
     }
     return start
 }
+// 荷兰国旗问题。解法明早再看吧。
+// 三指针方案。
+// base case start := -1 end = len(nums) mid = 0
+// corner case start < mid < end
+// if nums[mid] == dst mid++
+// if nums[mid] < dst [mid] <=> [start+1] start++ mid++
+// if nums[mid] > dst [mid] <=> [end-1] end --
+
+/// 注意步骤！！！！！
+
+func sortColors(nums []int)  {
+    start := -1
+    end := len(nums)
+    mid := 0
+    for start< mid && mid < end{
+        if nums[mid] == 1{
+            mid++
+        }else if nums[mid] < 1{
+            nums[mid], nums[start+1] = nums[start + 1], nums[mid]
+            start++
+            mid++
+        }else{
+            nums[mid], nums[end - 1] = nums[end - 1], nums[mid]
+            end--
+        }
+    }
+}
