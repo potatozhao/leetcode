@@ -40,3 +40,45 @@ func nextPermutation(nums []int)  {
 	}
 	return
 }
+
+
+// 从后往前，先找到逆序的终结的前一个
+// 再找到逆序中比逆序前一个更大的，位置最远的最小值
+// 交换位置
+// 逆序之前的逆序。
+func nextPermutation(nums []int)  {
+    if len(nums) <=1{
+        return
+    }
+    cul := len(nums) - 1
+    pre := cul - 1
+    for cul > 0 && nums[pre] >= nums[cul]{
+        pre--
+        cul--
+    }
+
+    if cul <= 0{
+        reverse(nums)
+        return
+    }
+    min := cul
+    for i := cul; i< len(nums); i++{
+        if nums[min] >= nums[i] && nums[i] > nums[pre]{
+            min = i
+        }
+    }
+    nums[pre], nums[min] = nums[min], nums[pre]
+
+    reverse(nums[cul:])
+	return
+}
+
+func reverse(nums []int){
+    s, e := 0, len(nums)-1
+    for s<e{
+        nums[s],nums[e] = nums[e], nums[s]
+        s++
+        e--
+    }
+    return
+}
