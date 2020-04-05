@@ -46,6 +46,7 @@ func dfs(node *TreeNode, list *[]int) {
 	return
 }
 
+// 染色法
 // 迭代方案，color记录左子节点是否已经迭代过。
 func inorderTraversal2(root *TreeNode) []int {
 	retList := make([]int, 0)
