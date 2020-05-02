@@ -25,11 +25,14 @@
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+#include<iostream>
+#include<map>
+#include<string>
 
 //改进后的滑动窗口
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
+    int lengthOfLongestSubstring(std::string s) {
         int ret = 0, start = -1, i=0;
         std::map<char, int> window;
         while(i < s.size()){
