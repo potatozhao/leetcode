@@ -61,5 +61,46 @@ public:
         }
         return ret;
     }
+
+    /*
+    左右遍历解法
+    */
+
+    int longestValidParentheses2(string s) {
+        int a = 0, b=0, start = 0, pos = -1;
+        for(int i = 0; i < s.size(); i++){
+            if (s[i] == '('){
+                start += 1;
+            }else{
+                start -= 1;
+            }
+            if (start==0){
+                a = max(a, i - pos);
+            }
+            if (start < 0){
+                pos = i;
+                start = 0;
+            }
+        }
+        start = 0;
+        pos = s.size();
+        for (int i = s.size()-1; i>=0; i--){
+            if (s[i] == ')'){
+                start += 1;
+            }else{
+                start -= 1;
+            }
+            if (start==0){
+                b = max(b, pos-i);
+            }
+            if (start <0){
+                pos =i;
+                start = 0;
+            }
+        }
+        return max(a,b);
+    }
+
+
 };
 
