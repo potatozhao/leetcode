@@ -92,6 +92,7 @@ func dfs(nums []int, pos int, markedList []bool) bool {
 来源：力扣（LeetCode）
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 */
+// 标准的贪心做法。
 func canJump(nums []int) bool {
 	maxNum := 0
 	for i := 0; i <= maxNum; i++ {
