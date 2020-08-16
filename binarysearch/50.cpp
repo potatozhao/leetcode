@@ -45,14 +45,24 @@ public:
         return n%2==0?y*y:y*y*x;
     }
 
+    double bfs(double x, long n){
+        double ans = 1.0;
+        double x_last = x;
+        while(n>0){
+            if(n%2==1){
+                 ans *= x_last;
+            }
+            x_last *= x_last;
+            n /= 2;
+        }
+        return ans;
+    }
+
     double myPow(double x, int n) {
         double ret = 1;
         long t = n;
         if(x==0) return 0;
-        if(t<0){
-            x = 1.0/x;
-            t = -t;
-        }
-        return dfs(x,t);
+        return n>0?dfs(x,t):dfs(x,-t);
     }
 };
+
